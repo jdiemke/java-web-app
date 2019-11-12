@@ -20,9 +20,9 @@ task deployToTomcat(type: Copy) {
 
 remotes {
   webServer {
-    host = 'host'
-    user = 'user'
-    password = 'password'
+    host = '192.168.0.13'
+    user = project.properties.user
+    password = project.properties.password
   }
 }
 
