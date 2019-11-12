@@ -1,6 +1,7 @@
 plugins {
     id 'war'
     id 'org.gretty' version '2.2.0'
+    id 'org.hidetake.ssh' version '2.10.1'
 }
 
 repositories {
@@ -15,4 +16,23 @@ dependencies {
 task deployToTomcat(type: Copy) {
     from war.archivePath
     into "/var/lib/tomcat9/webapps"
+}
+
+remotes {
+  webServer {
+    host = 'host'
+    user = 'user'
+    password = 'password'
+  }
+}
+
+task deploy {
+  doLast {
+    ssh.run {
+      session(remotes.webServer) {
+        put from: war.archivePath, into: '/home/pi'
+        execute 'sudo mv /home/pi/java-web-app.war /var/lib/tomcat9/webapps'
+      }
+    }
+  }
 }
