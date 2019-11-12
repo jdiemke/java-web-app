@@ -11,3 +11,8 @@ dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:3.1.0' 
     testCompile 'junit:junit:4.12'
 }
+
+task deployToTomcat(type: Copy) {
+    from war.archivePath
+    into "/var/lib/tomcat9/webapps"
+}
